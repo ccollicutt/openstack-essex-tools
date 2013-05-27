@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# NOTE: This *could* remove images backed by instances that are important, so I would double check
+#       to make sure that it's going to remove the right images, ie. the ones that aren't being used.
+# 
 
 #
 # Vars
@@ -32,8 +36,12 @@ find $INSTANCES_DIR/_base/* | \
 # Find out what lines are in $ALL_IMAGES that are NOT in $USED_IMAGES
 # ie. lines unique to file 2, which is ALL_IMAGES
 # So this will print images in $INSTANCES_DIR that could be removed.
+#
 comm -13 <(sort $USED_IMAGES) <(sort $ALL_IMAGES) > $REMOVE_IMAGES
 
+#
+# Might use these later, as TOTAL - USED should equal REMOVE
+# 
 NUM_USED_IMAGES=$(wc -l $USED_IMAGES)
 NUM_ALL_IMAGES=$(wc -l $ALL_IMAGES)
 NUM_REMOVE_IMAGES=$(wc -l $REMOVE_IMAGES)
